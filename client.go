@@ -73,7 +73,7 @@ func (e *EasyDB) Get(key string) (result interface{}, err error) {
 	return
 }
 
-func (e *EasyDB) List() (result map[string]interface{}, err error) {
+func (e *EasyDB) List() (result []interface{}, err error) {
 	var (
 		u    *url.URL
 		resp *http.Response
