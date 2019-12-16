@@ -5,18 +5,19 @@ jobs:
       - image: circleci/golang:1.13
     working_directory: /go/src/github.com/heavenlyteam/easydb
     environment:
-      TEST_RESULTS: /tmp/test-results # path to where test results will be save
+      TEST_RESULTS: /tmp/test-results
 
 
-    steps: # steps that comprise the `build` job
-      - checkout # check out source code to working directory
-      - run: mkdir -p $TEST_RESULTS # create the test results directory
+    steps:
+      - checkout
+      - run: mkdir -p $TEST_RESULTS
       - restore_cache:
           keys:
             - v1-pkg-cache
 
       - run: export GOFLAGS='-mod vendor'
       - run: export GO111MODULE=on
+      - run: export CODECOV_TOKEN="c2e79f8f-bc3c-4cbb-afe5-22780c07e3eb"
       - run:
           name: Download dependencies
           command: go mod download

@@ -1,0 +1,1 @@
+[![CircleCI](https://circleci.com/gh/heavenlyteam/easydb-go/tree/master.svg?style=svg)](https://circleci.com/gh/heavenlyteam/easydb-go/tree/master)
