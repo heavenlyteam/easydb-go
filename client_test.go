@@ -31,7 +31,7 @@ func TestOpen(t *testing.T) {
 func TestEasyDB_Get(t *testing.T) {
 	var (
 		err        error
-		db         *EasyDB
+		db         *Client
 		assertions = assert.New(t)
 	)
 
@@ -74,7 +74,7 @@ func TestEasyDB_Get(t *testing.T) {
 func TestEasyDB_Put(t *testing.T) {
 	var (
 		err        error
-		db         *EasyDB
+		db         *Client
 		assertions = assert.New(t)
 	)
 
@@ -120,7 +120,7 @@ func TestEasyDB_Put(t *testing.T) {
 func TestEasyDB_Delete(t *testing.T) {
 	var (
 		err        error
-		db         *EasyDB
+		db         *Client
 		assertions = assert.New(t)
 	)
 
@@ -154,7 +154,7 @@ func TestEasyDB_Delete(t *testing.T) {
 func TestEasyDB_List(t *testing.T) {
 	var (
 		err        error
-		db         *EasyDB
+		db         *Client
 		assertions = assert.New(t)
 	)
 
@@ -201,6 +201,6 @@ func TestEasyDB_List(t *testing.T) {
 	}
 }
 
-func getInstance() (db *EasyDB, err error) {
+func getInstance() (db *Client, err error) {
 	return Open("test", "test")
 }

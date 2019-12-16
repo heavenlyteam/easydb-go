@@ -7,15 +7,15 @@ import (
 	"net/url"
 )
 
-type EasyDB struct {
+type Client struct {
 	databaseName    string
 	connectionToken string
 
 	hc http.Client
 }
 
-func Open(databaseName, token string) (ed *EasyDB, err error) {
-	var easyDB EasyDB
+func Open(databaseName, token string) (ed *Client, err error) {
+	var easyDB Client
 
 	if len(token) == 0 {
 		err = ErrEmptyToken
@@ -35,7 +35,7 @@ func Open(databaseName, token string) (ed *EasyDB, err error) {
 	return
 }
 
-func (e *EasyDB) query(method string, u *url.URL, body []byte) (resp *http.Response, err error) {
+func (c *Client) query(method string, u *url.URL, body []byte) (resp *http.Response, err error) {
 	var req *http.Request
 	if req, err = http.NewRequest(method, u.String(), bytes.NewReader(body)); err != nil {
 		return
@@ -45,24 +45,24 @@ func (e *EasyDB) query(method string, u *url.URL, body []byte) (resp *http.Respo
 		req.Header.Set("Content-Type", "application/json")
 	}
 
-	if resp, err = e.hc.Do(req); err != nil {
+	if resp, err = c.hc.Do(req); err != nil {
 		return
 	}
 
 	return
 }
 
-func (e *EasyDB) Get(key string) (result interface{}, err error) {
+func (c *Client) Get(key string) (result interface{}, err error) {
 	var (
 		u    *url.URL
 		resp *http.Response
 	)
 
-	if u, err = getDbKeyURL(e.databaseName, key); err != nil {
+	if u, err = getDbKeyURL(c.databaseName, key); err != nil {
 		return
 	}
 
-	if resp, err = e.query(http.MethodGet, u, nil); err != nil {
+	if resp, err = c.query(http.MethodGet, u, nil); err != nil {
 		return
 	}
 	defer resp.Body.Close()
@@ -73,16 +73,16 @@ func (e *EasyDB) Get(key string) (result interface{}, err error) {
 	return
 }
 
-func (e *EasyDB) List() (result []interface{}, err error) {
+func (c *Client) List() (result []interface{}, err error) {
 	var (
 		u    *url.URL
 		resp *http.Response
 	)
-	if u, err = getDbURL(e.databaseName); err != nil {
+	if u, err = getDbURL(c.databaseName); err != nil {
 		return
 	}
 
-	if resp, err = e.query(http.MethodGet, u, nil); err != nil {
+	if resp, err = c.query(http.MethodGet, u, nil); err != nil {
 		return
 	}
 	defer resp.Body.Close()
@@ -93,14 +93,14 @@ func (e *EasyDB) List() (result []interface{}, err error) {
 	return
 }
 
-func (e *EasyDB) Put(key string, value interface{}) (err error) {
+func (c *Client) Put(key string, value interface{}) (err error) {
 	var (
 		u    *url.URL
 		resp *http.Response
 		body []byte
 	)
 
-	if u, err = getDbKeyURL(e.databaseName, key); err != nil {
+	if u, err = getDbKeyURL(c.databaseName, key); err != nil {
 		return
 	}
 
@@ -110,7 +110,7 @@ func (e *EasyDB) Put(key string, value interface{}) (err error) {
 		return
 	}
 
-	if resp, err = e.query(http.MethodPost, u, body); err != nil {
+	if resp, err = c.query(http.MethodPost, u, body); err != nil {
 		return
 	}
 	defer resp.Body.Close()
@@ -118,17 +118,17 @@ func (e *EasyDB) Put(key string, value interface{}) (err error) {
 	return
 }
 
-func (e *EasyDB) Delete(key string) (err error) {
+func (c *Client) Delete(key string) (err error) {
 	var (
 		u    *url.URL
 		resp *http.Response
 	)
 
-	if u, err = getDbKeyURL(e.databaseName, key); err != nil {
+	if u, err = getDbKeyURL(c.databaseName, key); err != nil {
 		return
 	}
 
-	if resp, err = e.query(http.MethodDelete, u, nil); err != nil {
+	if resp, err = c.query(http.MethodDelete, u, nil); err != nil {
 		return
 	}
 	defer resp.Body.Close()
