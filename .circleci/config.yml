@@ -22,7 +22,8 @@ jobs:
           command: go mod download
       - run:
           name: Run tests
-          command: go test -v -race ./... | tee ${TEST_RESULTS}/go-test.out
+          command: go test -v -race ./... -coverprofile=coverage.txt -covermode=atomic | tee ${TEST_RESULTS}/go-test.out
+      - run: bash <(curl -s https://codecov.io/bash) -t c2e79f8f-bc3c-4cbb-afe5-22780c07e3ebs
       - store_artifacts:
           path: /tmp/test-results
           destination: raw-test-output
