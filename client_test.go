@@ -112,6 +112,44 @@ func TestEasyDB_Put(t *testing.T) {
 	}
 }
 
+func TestEasyDB_Delete(t *testing.T) {
+	var (
+		err        error
+		db         *EasyDB
+		assertions = assert.New(t)
+	)
+
+	if db, err = getInstance(); err != nil {
+		t.Fatal(err)
+	}
+
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	tests := []struct {
+		description   string
+		responder     httpmock.Responder
+		expectedError error
+	}{
+		{
+			description:   "Success result on 'Put'",
+			responder:     httpmock.NewStringResponder(http.StatusOK, ``),
+			expectedError: nil,
+		},
+		{
+			description:   "Error response on 'Get'",
+			responder:     httpmock.NewStringResponder(http.StatusOK, ``),
+			expectedError: nil,
+		},
+	}
+
+	for _, tc := range tests {
+		httpmock.RegisterResponder(http.MethodDelete, "https://app.easydb.io/database/test/test", tc.responder)
+		err := db.Delete("test")
+
+		assertions.Equal(err, tc.expectedError, tc.description)
+	}
+}
 
 func getInstance() (db *EasyDB, err error) {
 	return Open("test", "test")

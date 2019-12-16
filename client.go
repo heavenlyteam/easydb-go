@@ -128,7 +128,7 @@ func (e *EasyDB) Delete(key string) (err error) {
 		return
 	}
 
-	if resp, err = e.query(http.MethodPost, u, nil); err != nil {
+	if resp, err = e.query(http.MethodDelete, u, nil); err != nil {
 		return
 	}
 	defer resp.Body.Close()
