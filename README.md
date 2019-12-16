@@ -1,5 +1,5 @@
-# EasyDB client
-Is a client for the easydb.io service
+# EasyDB-GO client
+easydb.io golang client
 
 [![CircleCI](https://circleci.com/gh/heavenlyteam/easydb-go/tree/master.svg?style=svg)](https://circleci.com/gh/heavenlyteam/easydb-go/tree/master)
 [![codecov](https://codecov.io/gh/heavenlyteam/easydb-go/branch/master/graph/badge.svg)](https://codecov.io/gh/heavenlyteam/easydb-go)
@@ -43,10 +43,23 @@ err := db.Put("key", testData)
 ### Get object
 
 ```go
-var (
-    db *easydb.Client
-    err error
-)
+var db *easydb.Client
 
 result, err := db.Get("key")
+```
+
+### Delete object
+
+```go
+var db *easydb.Client
+
+result, err := db.Delete("key")
+```
+
+### All objects list
+
+```go
+var db *easydb.Client
+
+result, err := db.List()
 ```
