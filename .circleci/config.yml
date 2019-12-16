@@ -17,14 +17,13 @@ jobs:
 
       - run: export GOFLAGS='-mod vendor'
       - run: export GO111MODULE=on
-      - run: export CODECOV_TOKEN="c2e79f8f-bc3c-4cbb-afe5-22780c07e3eb"
       - run:
           name: Download dependencies
           command: go mod download
       - run:
           name: Run tests
           command: go test -v -race ./... -coverprofile=coverage.txt -covermode=atomic | tee ${TEST_RESULTS}/go-test.out
-      - run: bash <(curl -s https://codecov.io/bash) -t c2e79f8f-bc3c-4cbb-afe5-22780c07e3ebs
+      - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: /tmp/test-results
           destination: raw-test-output
