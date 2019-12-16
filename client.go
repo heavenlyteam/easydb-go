@@ -45,6 +45,8 @@ func (c *Client) query(method string, u *url.URL, body []byte) (resp *http.Respo
 		req.Header.Set("Content-Type", "application/json")
 	}
 
+	req.Header.Add("token", c.connectionTokens)
+
 	if resp, err = c.hc.Do(req); err != nil {
 		return
 	}
